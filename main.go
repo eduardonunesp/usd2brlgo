@@ -77,20 +77,18 @@ func pool() chan string {
 		}
 
 		for {
-			for {
-				requestJSON()
-				if haveResponse {
-					break
-				} else {
-					log.Println("No result try again ...")
-				}
+			requestJSON()
+			if haveResponse {
+				break
+			} else {
+				log.Println("No result try again ...")
 			}
+		}
 
-			c := time.Tick(30 * time.Minute)
-			for now := range c {
-				log.Println("Updated at %v", now)
-				requestJSON()
-			}
+		c := time.Tick(30 * time.Minute)
+		for now := range c {
+			log.Println("Updated at %v", now)
+			requestJSON()
 		}
 	}()
 	return ch
